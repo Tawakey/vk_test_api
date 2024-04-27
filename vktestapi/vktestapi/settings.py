@@ -39,8 +39,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'notes.apps.NotesConfig',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'drf_yasg',
+    'django_filters',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    "DEFAULT_AUTHENTICATION_CLASSES":[
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DATE_INPUT_FORMATS': ["%Y-%m-%d", ],
+    'DATETIME_FORMAT': "%Y-%m-%d",
+    'DATE_FORMAT': "%Y-%m-%d"
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +71,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'vktestapi.urls'
+
+
 
 TEMPLATES = [
     {
