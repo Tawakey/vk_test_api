@@ -9,7 +9,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ["username", "user", "title", "content", "id"]
+        fields = ["username",  "title", "content"]
 
     def get_username(self, obj):
         return obj.user.username
@@ -26,10 +26,10 @@ class AuthenticatedNoteSerializer(NoteSerializer):
 
     class Meta:
         model = Note
-        fields = ["id", "user", "username", "title", "content",  "is_owner"]
+        fields = ["username", "title", "content",  "is_owner"]
 
     def get_is_owner(self, obj):
-        return self.context["request"] == obj
+        return self.context["request"].user == obj.user
     
     def create(self, validated_data):
         validated_data["user"] = self.context["request"].user

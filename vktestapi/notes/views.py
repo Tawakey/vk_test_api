@@ -5,7 +5,7 @@ from django.http import QueryDict
 from .permissions import AuthenticatedPermission
 from rest_framework.response import Response
 from rest_framework import status, filters
-from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.pagination import PageNumberPagination
 import datetime
 from pytz import timezone as tz
 from django_filters import rest_framework as filters
@@ -24,10 +24,10 @@ class SimpleFilter(filters.FilterSet):
 
 
 #Pagination class
-class SimplePagination(LimitOffsetPagination):
+class SimplePagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 10000
-    offset_query_param = 10
+    page_size = 2
 
 
 #Main view for notes app
@@ -40,6 +40,8 @@ class NotesView(ModelViewSet):
     filterset_class = SimpleFilter
     ordering_fields = ['time_created']
     ordering = ['time_created']
+
+
 
 
     def get_serializer_class(self):
@@ -57,9 +59,7 @@ class NotesView(ModelViewSet):
         return data_from_request
 
     def create(self, request, *args, **kwargs):
-        
         data_from_request = self.get_user_from_request(request)
-
         serializer = self.get_serializer(data=data_from_request)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -77,7 +77,7 @@ class NotesView(ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
 
-
+        #Check if time is less than 1 day
         if (datetime.datetime.now().replace(tzinfo=tz("Europe/Moscow")) - instance.time_created).days < 1:
             self.perform_update(serializer)
 
