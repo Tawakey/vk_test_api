@@ -28,7 +28,7 @@ POST-запрос localhost:8000/auth/token/login
 username : Логин  
 passowrd : Пароль  
 
-В ответ придёт token, который необходимо добавить в HEADERS в виде Auth: token "ваш_токен"  
+В ответ придёт token, который необходимо добавить в HEADERS в виде Auth: token ваш_токен  
 
 ## Отображение списка  
 GET-запрос на localhost:8000/api/v1/notes/
@@ -41,7 +41,7 @@ title: Заголовок
 content: Содержание  
 
 ## Редактирование заметок
-PUT-запрос на localhost:8000/api/v1/notes/{id} 
+PUT-запрос на localhost:8000/api/v1/notes/{id}  
 title: Заголовок  
 content: Содержание  
 
