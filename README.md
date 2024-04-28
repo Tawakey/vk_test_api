@@ -1,1 +1,4 @@
-# VkTestApi
+# VkTestApi  
+
+## Как запустить
+> docker-compose up
